@@ -1,5 +1,3 @@
-package riotapi;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,11 +18,24 @@ public class Main {
     
     public static void main(String[] args) throws IOException {
         APIKey = getAPIKey();
+        String content = "";
         
-        String name = "skraman";
-        long id = getIdFromName(name);
+        String[] arguments = {"skraman"};
         
-        String content = getContent("v1.3/game/by-summoner/" + id + "/recent");
+        if (args.length != 0)
+            arguments = args;
+        
+        switch(arguments.length) {
+            case 0:
+                throw new IllegalArgumentException("No arguements.");
+            case 1:
+                String name = arguments[0];
+                Summoner summoner =  new Summoner(getContent("v1.2/summoner/by-name/" + name));
+                content = summoner.toString();
+                break;
+            default:
+                throw new IllegalArgumentException("Too many arguements.");
+        }
         System.out.println(content);
     }
 
@@ -43,9 +54,8 @@ public class Main {
     }
 
     private static long getIdFromName(String name) throws IOException {
-        String info = getContent("v1.1/summoner/by-name/skraman");
-        info = info.substring(info.indexOf(':')+1,info.indexOf(','));
-        System.out.println(info);
-        return Long.parseLong(info);
+        String info = getContent("v1.1/summoner/by-name/" + name);
+        Summoner summoner = new Summoner(info);
+        return summoner.id();
     }
 }
