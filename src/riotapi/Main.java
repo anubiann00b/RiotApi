@@ -14,15 +14,22 @@ import javax.net.ssl.HttpsURLConnection;
 public class Main {
     
     private static String region = "na";
+    private static String APIKey;
+    
+    private final static String baseURL = "https://prod.api.pvp.net/api/lol/";
     
     public static void main(String[] args) throws IOException {
-        String APIKey = getAPIKey();
-        String content = getContent("v1.1/summoner/by-name/RiotSchmick?api_key=" + APIKey);
+        APIKey = getAPIKey();
+        
+        String name = "skraman";
+        long id = getIdFromName(name);
+        
+        String content = getContent("v1.3/game/by-summoner/" + id + "/recent");
         System.out.println(content);
     }
 
     private static String getContent(String httpsUrl) throws MalformedURLException, IOException {
-        httpsUrl = "https://prod.api.pvp.net/api/lol/" + region + "/" + httpsUrl;
+        httpsUrl = baseURL + region + "/" + httpsUrl + "?api_key=" + APIKey;
         URL url = new URL(httpsUrl);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -33,5 +40,12 @@ public class Main {
     
     private static String getAPIKey() throws FileNotFoundException, IOException {
         return new Scanner(new FileReader(new File("APIKey.txt"))).nextLine();
+    }
+
+    private static long getIdFromName(String name) throws IOException {
+        String info = getContent("v1.1/summoner/by-name/skraman");
+        info = info.substring(info.indexOf(':')+1,info.indexOf(','));
+        System.out.println(info);
+        return Long.parseLong(info);
     }
 }
