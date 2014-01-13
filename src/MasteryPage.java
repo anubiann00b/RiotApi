@@ -49,6 +49,7 @@ public class MasteryPage {
         String ns = "";
         boolean hasTalent =false;
         ns += name + ": " + (current?"Current":"Not Current") + "\n";
+        ns += "\n Offense:\n";
         for (int i=0;i<offense.length;i++) {
             for (int j=0;j<offense[0].length;j++) {
                 for (Talent e : talents) {
@@ -57,7 +58,7 @@ public class MasteryPage {
                         break;
                     }
                 }
-                ns += "  " + pad((hasTalent?"[x]":"[ ]") + " " + offense[i][j],26);
+                ns += "  " + pad((offense[i][j].equals("")?"":(hasTalent?"[x]":"[ ]")) + " " + offense[i][j],26);
                 hasTalent = false;
             }
             ns += "\n";

@@ -22,9 +22,18 @@ public class Masteries {
     public String toString() {
         String ns = "";
         for (MasteryPage e : pages) {
-            ns += e.toString();
-            ns += "\n\n";
+            if (e.current()) {
+                ns += e.toString();
+                ns += "\n\n";
+                break;
+            }
         }
+        for (MasteryPage e : pages) {
+            if (!e.current()) {
+                ns += e.toString();
+                ns += "\n\n";
+            }
+        }        
         return ns;
     }
 }
