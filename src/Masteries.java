@@ -19,6 +19,14 @@ public class Masteries {
         }
     }
     
+    public MasteryPage getPageByName(String name) {
+        for (MasteryPage page : pages) {
+            if (page.name().equals(name))
+                return page;
+        }
+        return null;
+    }
+    
     public String toString() {
         String ns = "";
         for (MasteryPage e : pages) {
