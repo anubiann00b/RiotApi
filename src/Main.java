@@ -3,8 +3,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 import javax.net.ssl.HttpsURLConnection;
@@ -18,9 +18,8 @@ public class Main {
     
     public static void main(String[] args) throws IOException {
         APIKey = getAPIKey();
-        String content = "";
         
-        String[] arguments = {"masteries","skraman"};
+        String[] arguments = {"masteries","WorstRivenBronze"};
         
         if (args.length != 0)
             arguments = args;
@@ -43,9 +42,22 @@ public class Main {
             case 2:
                 switch(arguments[0].toLowerCase()) {
                     case "masteries":
+                        System.out.println(new Masteries(getContent("v1.2/summoner/" + getIdFromName(arguments[1]) + "/masteries")));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("First argument not recognized.");
+                }
+                break;
+            case 3:
+                switch(arguments[0].toLowerCase()) {
+                    case "masteries":
                         String name = arguments[1];
-                        System.out.println(new Masteries(
-                                getContent("v1.2/summoner/" + getIdFromName(name) + "/masteries")));
+                        Masteries masteryPages = new Masteries(getContent("v1.2/summoner/" + getIdFromName(name) + "/masteries"));
+                        MasteryPage masteryPage = masteryPages.getPageByName(arguments[2]);
+                        if (masteryPage != null)
+                            System.out.println(masteryPage);
+                        else
+                            System.out.println("Mastery page \"" + arguments[2] + "\" not found for summoner \"" + arguments[1] + ".\"");
                         break;
                     default:
                         throw new IllegalArgumentException("First argument not recognized.");
@@ -56,12 +68,19 @@ public class Main {
         }
     }
 
-    private static String getContent(String httpsUrl) throws MalformedURLException, IOException {
+    private static String getContent(String httpsUrl) throws IOException {
         System.out.print("Attempting to connect...");
         httpsUrl = baseURL + region + "/" + httpsUrl + "?api_key=" + APIKey;
         URL url = new URL(httpsUrl);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        InputStream is = null;
+        try {
+            is = con.getInputStream();
+        } catch (IOException e) { 
+            System.out.print("Failed to connect.\n" + e + "\n");
+            throw new IOException("Failed to connect.");
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String input = br.readLine();
         br.close();
         System.out.print("Connected!\n\n");
@@ -80,11 +99,12 @@ public class Main {
 
     private static void displayHelp() {
         System.out.println(
-                "Welcome to RiotApi, a command-line tool to access Riot's API.\n" +
-                "riotapi - See 'riotapi help.'\n" +
-                "riotapi help - Shows this help screen.\n" +
-                "riotapi [player] - Shows basic player information.\n" +
-                "riotapi masteries [player] - Shows masteries of the player.\n"
+            "Welcome to RiotApi, a command-line tool to access Riot's API.\n" +
+            "riotapi - See 'riotapi help.'\n" +
+            "riotapi help - Shows this help screen.\n" +
+            "riotapi [player] - Shows basic player information.\n" +
+            "riotapi masteries [player] - Shows masteries of the player.\n" +
+            "riotapi masteries [player] [pagename] - Shows player's mastery page pagename.\n"
         );
     }
 }
