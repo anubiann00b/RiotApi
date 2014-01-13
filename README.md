@@ -1,7 +1,7 @@
 RiotApi
 =======
 
-A Java command line utility to access the Riot API. Note that you have to create your own APIKey.txt file with your API key.
+A Java command line utility to access the Riot API. Note that you have to create your own APIKey.txt file with your API key. This is really more an exercise in Object Oriented projramming than anything else, and it's really only meant for personal use.
 
 Legal Stuff
 ===========
