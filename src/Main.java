@@ -64,7 +64,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String input = br.readLine();
         br.close();
-        System.out.print("Connected!\n");
+        System.out.print("Connected!\n\n");
         return input;
     }
     
