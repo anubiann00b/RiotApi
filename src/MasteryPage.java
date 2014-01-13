@@ -11,13 +11,17 @@ public class MasteryPage {
         {"Double-Edged Sword","Fury","Sorcery","Butcher"},
         {"Expose Weakness","Brute Force","Mental Force","Feast"},
         {"Spell Weaving","Martial Mastery","Arcane Mastery","Executioner"},
-        {"Blade Weaving","Warlord","Archmage","Dangerous Game"}
+        {"Blade Weaving","Warlord","Archmage","Dangerous Game"},
+        {"Frenzy","Devastating Strikes","","Arcane Blade"},
+        {"","Havoc","",""}
     };
     private static boolean[][] offenseLinks = {
         {false,false,false,false},
         {false,false,false,true},
         {false,true,true,false},
-        {true,false,false,true}
+        {true,false,false,true},
+        {false,false,false,false},
+        {false,false,false,false}
     };
     //private static String[][] defense = 
     //private static String[][] utility = 
@@ -64,12 +68,7 @@ public class MasteryPage {
             ns += "\n";
             ns += pad("",5);
             for (int j=0;j<offenseLinks[0].length;j++) {
-                ns += pad((offenseLinks[i][j]?"|":""),28);
-            }
-            ns += "\n";
-            ns += pad("",5);
-            for (int j=0;j<offenseLinks[0].length;j++) {
-                ns += pad((offenseLinks[i][j]?"\\/":""),28);
+                ns += pad((offenseLinks[i][j]?"||":""),28);
             }
             ns += "\n";
         }
