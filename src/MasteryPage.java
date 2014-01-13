@@ -29,4 +29,10 @@ public class MasteryPage {
                 data = data.substring(data.indexOf('}'));
         }
     }
+    
+    public String toString() {
+        String ns = "";
+        ns += name + ":" + (current?" Current":"Not Current");
+        return ns;
+    }
 }

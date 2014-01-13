@@ -13,9 +13,18 @@ public class Masteries {
         data = data.substring(data.indexOf(',')+1);
         
         data = data.substring(data.indexOf('[')+1);
-        while (data.indexOf("]},{")!=-1) {
-            pages.add(new MasteryPage(data.substring(data.indexOf('{'),data.indexOf("]},{")+2)));
+        while (data.indexOf("{\"id\"")!=-1) {
+            pages.add(new MasteryPage(data.substring(data.indexOf('{'),data.indexOf("]}")+2)));
             data = data.substring(data.indexOf("]}")+3);
         }
+    }
+    
+    public String toString() {
+        String ns = "";
+        for (MasteryPage e : pages) {
+            ns += e.toString();
+            ns += "\n\n";
+        }
+        return ns;
     }
 }
