@@ -20,32 +20,51 @@ public class Main {
         APIKey = getAPIKey();
         String content = "";
         
-        String[] arguments = {"skraman"};
+        String[] arguments = {"masteries","skraman"};
         
         if (args.length != 0)
             arguments = args;
         
         switch(arguments.length) {
             case 0:
-                throw new IllegalArgumentException("No arguements.");
+                displayHelp();
+                break;
             case 1:
-                String name = arguments[0];
-                Summoner summoner =  new Summoner(getContent("v1.2/summoner/by-name/" + name));
-                content = summoner.toString();
+                switch(arguments[0].toLowerCase()) {
+                    case "help":
+                        displayHelp();
+                        break;
+                    default:
+                        String name = arguments[0];
+                        System.out.println(new Summoner(getContent("v1.2/summoner/by-name/" + name)));
+                        break;
+                }
+                break;
+            case 2:
+                switch(arguments[0].toLowerCase()) {
+                    case "masteries":
+                        String name = arguments[1];
+                        System.out.println(new Masteries(
+                                getContent("v1.2/summoner/" + getIdFromName(name) + "/masteries")));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("First argument not recognized.");
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Too many arguements.");
         }
-        System.out.println(content);
     }
 
     private static String getContent(String httpsUrl) throws MalformedURLException, IOException {
+        System.out.print("Attempting to connect...");
         httpsUrl = baseURL + region + "/" + httpsUrl + "?api_key=" + APIKey;
         URL url = new URL(httpsUrl);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String input = br.readLine();
         br.close();
+        System.out.print("Connected!\n");
         return input;
     }
     
@@ -54,8 +73,18 @@ public class Main {
     }
 
     private static long getIdFromName(String name) throws IOException {
-        String info = getContent("v1.1/summoner/by-name/" + name);
+        String info = getContent("v1.2/summoner/by-name/" + name);
         Summoner summoner = new Summoner(info);
         return summoner.id();
+    }
+
+    private static void displayHelp() {
+        System.out.println(
+                "Welcome to RiotApi, a command-line tool to access Riot's API.\n" +
+                "riotapi - See 'riotapi help.'\n" +
+                "riotapi help - Shows this help screen.\n" +
+                "riotapi [player] - Shows basic player information.\n" +
+                "riotapi masteries [player] - Shows masteries of the player.\n"
+        );
     }
 }

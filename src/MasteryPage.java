@@ -5,7 +5,7 @@ public class MasteryPage {
     private long id;
     private String name;
     private boolean current;
-    private ArrayList<Talent> talents;
+    private ArrayList<Talent> talents = new ArrayList<Talent>();
     
     public long id() { return id; }
     public String name() { return name; }
@@ -20,10 +20,13 @@ public class MasteryPage {
         current = Boolean.parseBoolean(data.substring(data.indexOf(':')+1,data.indexOf(',')));
         data = data.substring(data.indexOf(',')+1);
         
-        data = data.substring(data.indexOf('{')+1);
-        while (data.length()>1) {
-            talents.add(new Talent(data.substring(data.indexOf('{'), data.indexOf(','))));
-            data = data.substring(data.indexOf('{'));
+        data = data.substring(data.indexOf('{'),data.indexOf("]}"));
+        while (data.indexOf('{')!=-1) {
+            talents.add(new Talent(data.substring(data.indexOf('{'),data.indexOf('}')+1)));
+            if (data.indexOf('}')+2<data.length())
+                data = data.substring(data.indexOf('}')+2);
+            else
+                data = data.substring(data.indexOf('}'));
         }
     }
 }

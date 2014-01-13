@@ -22,7 +22,6 @@ public class Summoner {
         level = Byte.parseByte(data.substring(data.indexOf(':')+1,data.indexOf(',')));
         data = data.substring(data.indexOf(',')+1);
         revisionDate = Long.parseLong(data.substring(data.indexOf(':')+1,data.indexOf('}')));
-        data = data.substring(data.indexOf(',')+1);
     }
     
     public String toString() {
