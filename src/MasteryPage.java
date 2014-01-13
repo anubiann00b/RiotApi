@@ -7,6 +7,21 @@ public class MasteryPage {
     private boolean current;
     private ArrayList<Talent> talents = new ArrayList<Talent>();
     
+    private static String[][] offense = {
+        {"Double-Edged Sword","Fury","Sorcery","Butcher"},
+        {"Expose Weakness","Brute Force","Mental Force","Feast"},
+        {"Spell Weaving","Martial Mastery","Arcane Mastery","Executioner"},
+        {"Blade Weaving","Warlord","Archmage","Dangerous Game"}
+    };
+    private static boolean[][] offenseLinks = {
+        {false,false,false,false},
+        {false,false,false,true},
+        {false,true,true,false},
+        {true,false,false,true}
+    };
+    //private static String[][] defense = 
+    //private static String[][] utility = 
+    
     public long id() { return id; }
     public String name() { return name; }
     public boolean current() { return current; }
@@ -32,7 +47,40 @@ public class MasteryPage {
     
     public String toString() {
         String ns = "";
-        ns += name + ":" + (current?" Current":"Not Current");
+        boolean hasTalent =false;
+        ns += name + ": " + (current?"Current":"Not Current") + "\n";
+        for (int i=0;i<offense.length;i++) {
+            for (int j=0;j<offense[0].length;j++) {
+                for (Talent e : talents) {
+                    if (e.name().equals(offense[i][j])) {
+                        hasTalent =true;
+                        break;
+                    }
+                }
+                ns += "  " + pad((hasTalent?"[x]":"[ ]") + " " + offense[i][j],26);
+                hasTalent = false;
+            }
+            ns += "\n";
+            ns += pad("",5);
+            for (int j=0;j<offenseLinks[0].length;j++) {
+                ns += pad((offenseLinks[i][j]?"|":""),28);
+            }
+            ns += "\n";
+            ns += pad("",5);
+            for (int j=0;j<offenseLinks[0].length;j++) {
+                ns += pad((offenseLinks[i][j]?"\\/":""),28);
+            }
+            ns += "\n";
+        }
         return ns;
+    }
+    
+    private String pad(String s, int padding) {
+        if (s.length()>padding)
+            throw new IndexOutOfBoundsException("\"" + s + "\" is longer than " + padding);
+        while (s.length()<padding) {
+            s += " ";
+        }
+        return s;
     }
 }
