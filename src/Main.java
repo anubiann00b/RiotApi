@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         APIKey = getAPIKey();
         
-        String[] arguments = {"masteries","WorstRivenBronze"};
+        String[] arguments = {"masteries","chaosdusk","adc"};
         
         if (args.length != 0)
             arguments = args;

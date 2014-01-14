@@ -51,19 +51,21 @@ public class MasteryPage {
     
     public String toString() {
         String ns = "";
-        boolean hasTalent =false;
+        Talent currentTalent = null;
         ns += name + ": " + (current?"Current":"Not Current") + "\n";
         ns += "\n Offense:\n";
         for (int i=0;i<offense.length;i++) {
             for (int j=0;j<offense[0].length;j++) {
                 for (Talent e : talents) {
                     if (e.name().equals(offense[i][j])) {
-                        hasTalent =true;
+                        currentTalent = e;
                         break;
                     }
                 }
-                ns += "  " + pad((offense[i][j].equals("")?"":(hasTalent?"[x]":"[ ]")) + " " + offense[i][j],26);
-                hasTalent = false;
+                ns += "  " + pad((offense[i][j].equals("")
+                                ?"":(currentTalent!=null?"[" + currentTalent.rank() + "]":"[0]"))
+                                + " " + offense[i][j],26);
+                currentTalent = null;
             }
             ns += "\n";
             ns += pad("",5);
