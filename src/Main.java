@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 import javax.net.ssl.HttpsURLConnection;
@@ -14,7 +15,7 @@ public class Main {
     private static String region = "na";
     private static String APIKey;
     
-    private final static String baseURL = "https://prod.api.pvp.net/api/lol/";
+    private final static String baseURL = "http://prod.api.pvp.net/api/lol/";
     
     public static void main(String[] args) throws IOException {
         APIKey = getAPIKey();
@@ -70,20 +71,28 @@ public class Main {
 
     private static String getContent(String httpsUrl) throws IOException {
         System.out.print("Attempting to connect...");
+        long startTime = System.currentTimeMillis();
+        
         httpsUrl = baseURL + region + "/" + httpsUrl + "?api_key=" + APIKey;
         URL url = new URL(httpsUrl);
-        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
         InputStream is = null;
+        
         try {
             is = con.getInputStream();
         } catch (IOException e) { 
             System.out.print("Failed to connect.\n" + e + "\n");
             throw new IOException("Failed to connect.");
         }
+        
+        long endTime = System.currentTimeMillis();
+        System.out.print("Connected!");
+        System.out.print(" Time: " + (endTime - startTime));
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String input = br.readLine();
         br.close();
-        System.out.print("Connected!\n\n");
+        
         return input;
     }
     
