@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-import javax.net.ssl.HttpsURLConnection;
 
 public class Main {
     
@@ -87,7 +86,7 @@ public class Main {
         
         long endTime = System.currentTimeMillis();
         System.out.print("Connected!");
-        System.out.print(" Time: " + (endTime - startTime));
+        System.out.print(" Time: " + (endTime - startTime) + "\n\n");
         
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String input = br.readLine();
