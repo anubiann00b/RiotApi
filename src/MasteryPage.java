@@ -23,8 +23,22 @@ public class MasteryPage {
         {false,false,false,false},
         {false,false,false,false}
     };
-    //private static String[][] defense = 
-    //private static String[][] utility = 
+    private static String[][] defense = {
+        {"Block","Recovery","Enchanted Armor","Tough Skin"},
+        {"Unyielding","Veteran's Scars","","Bladed Armor"},
+        {"Oppression","Jugggernaut","Hardiness","Resistance"},
+        {"Perserverence","Swiftness","Reinforced Armor","Evasive"},
+        {"Second Wind","Legendary Guardian Blade","Runic Blessing",""},
+        {"","Tenacious","",""}
+    };
+    private static boolean[][] defenseLinks = {
+        {true,false,false,true},
+        {false,true,false,false},
+        {false,false,true,false},
+        {false,false,false,false},
+        {false,false,false,false},
+        {false,false,false,false}
+    };
     
     public long id() { return id; }
     public String name() { return name; }
